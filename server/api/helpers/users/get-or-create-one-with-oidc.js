@@ -84,7 +84,7 @@ module.exports = {
       }
     }
 
-    const email = claims[sails.config.custom.oidcEmailAttribute];
+    const email = `${claims[sails.config.custom.oidcEmailAttribute]}@player.tkurbx.com`;
     const name = claims[sails.config.custom.oidcNameAttribute];
 
     if (!email || !name) {

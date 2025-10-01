@@ -1,0 +1,25 @@
+diff --git a/docker-compose-dev.yml b/docker-compose-dev.yml
+index e462b281..f8dc5180 100644
+--- a/docker-compose-dev.yml
++++ b/docker-compose-dev.yml
+@@ -15,6 +15,7 @@ services:
+       - BASE_URL=http://localhost:1337
+       - DATABASE_URL=postgresql://postgres@postgres/planka
+       - SECRET_KEY=notsecretkey
++      - TZ=Europe/London
+ 
+       # - LOG_LEVEL=warn
+ 
+diff --git a/server/api/helpers/users/get-or-create-one-with-oidc.js b/server/api/helpers/users/get-or-create-one-with-oidc.js
+index c0590917..23bbbb12 100644
+--- a/server/api/helpers/users/get-or-create-one-with-oidc.js
++++ b/server/api/helpers/users/get-or-create-one-with-oidc.js
+@@ -84,7 +84,7 @@ module.exports = {
+       }
+     }
+ 
+-    const email = claims[sails.config.custom.oidcEmailAttribute];
++    const email = `${claims[sails.config.custom.oidcEmailAttribute]}@player.tkurbx.com`;
+     const name = claims[sails.config.custom.oidcNameAttribute];
+ 
+     if (!email || !name) {
