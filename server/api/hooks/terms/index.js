@@ -19,8 +19,8 @@ const Types = {
   EXTENDED: 'extended',
 };
 
-const LANGUAGES = ['de-DE', 'en-US'];
-const DEFAULT_LANGUAGE = 'en-US';
+const LANGUAGES = ['de-DE', 'en-GB'];
+const DEFAULT_LANGUAGE = 'en-GB';
 
 const hashContent = (content) => crypto.createHash('sha256').update(content).digest('hex');
 
