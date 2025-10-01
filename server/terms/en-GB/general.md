@@ -1,10 +1,8 @@
-# Example Terms of Service - General Users
-
-_Not legally binding. This is placeholder text for testing purposes only._
+# Terms of Service - General Users
 
 _Last updated: August 14, 2025_
 
-Welcome to ExampleCorp! These Example Terms of Service ("Terms") are provided solely for demonstration and testing purposes in your application. They are **not legally valid**.
+Welcome to Tkurbx Planka! These Example Terms of Service ("Terms") are provided solely for demonstration and testing purposes in your application. They are **not legally valid**.
 
 ---
 
@@ -14,7 +12,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu mauris at es
 
 ## 2. Eligibility
 
-Users must be at least 18 years old to use this service. Sed vulputate sapien eu varius efficitur.
+Users must be at least 13 years old to use this service.-
 
 ## 3. User Responsibilities
 
@@ -38,7 +36,7 @@ These example Terms may change at any time for testing purposes.
 
 ## 6. Contact
 
-For questions about these example Terms, please contact `placeholder@example.com`.
+For questions about these example Terms, please contact `support@tkurbx.com`.
 
 ---
 
