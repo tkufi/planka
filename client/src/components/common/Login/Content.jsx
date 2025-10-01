@@ -178,7 +178,7 @@ const Content = React.memo(() => {
       <Grid verticalAlign="middle" className={classNames(styles.grid, styles.fullHeight)}>
         <Grid.Column computer={6} tablet={16} mobile={16}>
           <div className={styles.loginWrapper}>
-            <Header as="h1" textAlign="center" content="PLANKA" className={styles.formTitle} />
+            <Header as="h1" textAlign="center" content="Tkurbx Planka" className={styles.formTitle} />
             <Header
               as="h2"
               textAlign="center"
