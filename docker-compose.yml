@@ -1,6 +1,9 @@
 services:
   planka:
-    image: blaadam/tkurbx-planka:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: blaadam/tkurbx-planka:latest
     restart: on-failure
     volumes:
       - favicons:/app/public/favicons
