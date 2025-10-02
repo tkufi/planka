@@ -107,6 +107,4 @@ module.exports.custom = {
   smtpFrom: process.env.SMTP_FROM,
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
-
-  adminOnlyOrgs: ['admin', 'tkurbx', 'oversight']
 };

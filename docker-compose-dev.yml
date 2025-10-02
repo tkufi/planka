@@ -40,6 +40,8 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
+      - ADMIN_ONLY_ORGS=admin,tkurbx,oversight
+
       # - INTERNAL_ACCESS_TOKEN=
       # - STORAGE_LIMIT=
       # - ACTIVE_USERS_LIMIT=

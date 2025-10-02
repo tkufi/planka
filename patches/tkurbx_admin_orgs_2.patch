@@ -1,0 +1,50 @@
+diff --git a/docker-compose-dev.yml b/docker-compose-dev.yml
+index f8dc5180..060230d3 100644
+--- a/docker-compose-dev.yml
++++ b/docker-compose-dev.yml
+@@ -40,6 +40,8 @@ services:
+       # - DEFAULT_ADMIN_NAME=Demo Demo
+       # - DEFAULT_ADMIN_USERNAME=demo
+
++      - ADMIN_ONLY_ORGS=admin,tkurbx,oversight
++
+       # - INTERNAL_ACCESS_TOKEN=
+       # - STORAGE_LIMIT=
+       # - ACTIVE_USERS_LIMIT=
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 92353788..40ab6ed3 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -56,6 +56,8 @@ services:
+       # - DEFAULT_ADMIN_NAME=Demo Demo
+       # - DEFAULT_ADMIN_USERNAME=demo
+
++      - ADMIN_ONLY_ORGS=admin,tkurbx,oversight
++
+       # - INTERNAL_ACCESS_TOKEN=
+       # - STORAGE_LIMIT=
+       # - ACTIVE_USERS_LIMIT=
+diff --git a/server/api/controllers/users/update.js b/server/api/controllers/users/update.js
+index 2407a038..0bcb37d8 100755
+--- a/server/api/controllers/users/update.js
++++ b/server/api/controllers/users/update.js
+@@ -247,7 +247,7 @@ module.exports = {
+       }
+     }
+
+-    const adminOrgs = sails.config.custom.adminOnlyOrgs;
++    const adminOrgs = ['admin', 'tkurbx', 'oversight'];
+     if (adminOrgs && adminOrgs.length > 0 && currentUser.role != User.Roles.ADMIN) {
+       if (
+         inputs.organization &&
+diff --git a/server/config/custom.js b/server/config/custom.js
+index 539c1e27..92089681 100644
+--- a/server/config/custom.js
++++ b/server/config/custom.js
+@@ -107,6 +107,4 @@ module.exports.custom = {
+   smtpFrom: process.env.SMTP_FROM,
+
+   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
+-
+-  adminOnlyOrgs: ['admin', 'tkurbx', 'oversight']
+ };

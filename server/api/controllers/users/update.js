@@ -247,7 +247,7 @@ module.exports = {
       }
     }
 
-    const adminOrgs = sails.config.custom.adminOnlyOrgs;
+    const adminOrgs = ['admin', 'tkurbx', 'oversight'];
     if (adminOrgs && adminOrgs.length > 0 && currentUser.role != User.Roles.ADMIN) {
       if (
         inputs.organization &&
