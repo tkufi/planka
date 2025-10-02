@@ -1,0 +1,46 @@
+diff --git a/server/api/controllers/users/update.js b/server/api/controllers/users/update.js
+index f26cc43a..2407a038 100755
+--- a/server/api/controllers/users/update.js
++++ b/server/api/controllers/users/update.js
+@@ -247,6 +247,18 @@ module.exports = {
+       }
+     }
+ 
++    const adminOrgs = sails.config.custom.adminOnlyOrgs;
++    if (adminOrgs && adminOrgs.length > 0 && currentUser.role != User.Roles.ADMIN) {
++      if (
++        inputs.organization &&
++        adminOrgs.some(orgTerm =>
++          inputs.organization.toLowerCase().includes(orgTerm.toLowerCase())
++        )
++      ) {
++        throw Errors.NOT_ENOUGH_RIGHTS;
++      }
++    }
++
+     const values = {
+       ..._.pick(inputs, [
+         'role',
+diff --git a/server/config/custom.js b/server/config/custom.js
+index 5380d97b..539c1e27 100644
+--- a/server/config/custom.js
++++ b/server/config/custom.js
+@@ -94,9 +94,8 @@ module.exports.custom = {
+   oidcEnforced: process.env.OIDC_ENFORCED === 'true',
+ 
+   // TODO: move client base url to environment variable?
+-  oidcRedirectUri: `${
+-    sails.config.environment === 'production' ? baseUrl : 'http://localhost:3000'
+-  }/oidc-callback`,
++  oidcRedirectUri: `${sails.config.environment === 'production' ? baseUrl : 'http://localhost:3000'
++    }/oidc-callback`,
+ 
+   smtpHost: process.env.SMTP_HOST,
+   smtpPort: process.env.SMTP_PORT || 587,
+@@ -108,4 +107,6 @@ module.exports.custom = {
+   smtpFrom: process.env.SMTP_FROM,
+ 
+   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
++
++  adminOnlyOrgs: ['admin', 'tkurbx', 'oversight']
+ };

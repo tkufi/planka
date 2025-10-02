@@ -94,9 +94,8 @@ module.exports.custom = {
   oidcEnforced: process.env.OIDC_ENFORCED === 'true',
 
   // TODO: move client base url to environment variable?
-  oidcRedirectUri: `${
-    sails.config.environment === 'production' ? baseUrl : 'http://localhost:3000'
-  }/oidc-callback`,
+  oidcRedirectUri: `${sails.config.environment === 'production' ? baseUrl : 'http://localhost:3000'
+    }/oidc-callback`,
 
   smtpHost: process.env.SMTP_HOST,
   smtpPort: process.env.SMTP_PORT || 587,
@@ -108,4 +107,6 @@ module.exports.custom = {
   smtpFrom: process.env.SMTP_FROM,
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
+
+  adminOnlyOrgs: ['admin', 'tkurbx', 'oversight']
 };

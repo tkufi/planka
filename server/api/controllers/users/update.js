@@ -247,6 +247,18 @@ module.exports = {
       }
     }
 
+    const adminOrgs = sails.config.custom.adminOnlyOrgs;
+    if (adminOrgs && adminOrgs.length > 0 && currentUser.role != User.Roles.ADMIN) {
+      if (
+        inputs.organization &&
+        adminOrgs.some(orgTerm =>
+          inputs.organization.toLowerCase().includes(orgTerm.toLowerCase())
+        )
+      ) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     const values = {
       ..._.pick(inputs, [
         'role',
