@@ -16,6 +16,7 @@ import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
 
 import styles from './EditUserInformation.module.scss';
+import OrganisationsList from '../../../constants/OrganisationsList';
 
 const EditUserInformation = React.memo(({ id, onUpdate }) => {
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
@@ -91,14 +92,25 @@ const EditUserInformation = React.memo(({ id, onUpdate }) => {
         onChange={handleFieldChange}
       />
       <div className={styles.text}>{t('common.organization')}</div>
-      <Input
-        fluid
-        name="organization"
-        value={data.organization}
-        maxLength={128}
-        className={styles.field}
-        onChange={handleFieldChange}
-      />
+
+      <div>
+        <Input
+          fluid
+          name="organization"
+          value={data.organization}
+          maxLength={128}
+          className={styles.field}
+          onChange={handleFieldChange}
+          list="organizations"
+          placeholder={t('common.organization')}
+        />
+        <datalist id="organizations">
+          {OrganisationsList.map((option) => (
+            <option value={option}>{option}</option>
+          ))}
+        </datalist>
+      </div>
+
       <Button positive disabled={dequal(cleanData, defaultData)} content={t('action.save')} />
     </Form>
   );

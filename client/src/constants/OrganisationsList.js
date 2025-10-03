@@ -1,0 +1,15 @@
+export default [
+  'Turku Resident',
+  'Business Owner',
+  'Finnish Border Guard',
+  'Finnish Defence Forces',
+  'Finnish District Courts',
+  'Finnish Government',
+  'Prison and Probation Service',
+  'Southwest Finland Police',
+  'Southwest Finland Rescue',
+  'Turku Business Services',
+  'Turku City Government',
+  'Turku Municipal Services',
+  'Turku University Hospital',
+]
