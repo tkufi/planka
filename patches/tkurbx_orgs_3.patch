@@ -1,0 +1,94 @@
+From 6d90c2f090c20cc01b149ca736246a1688eb64bc Mon Sep 17 00:00:00 2001
+From: Blaadam <blaadam.gaming06@gmail.com>
+Date: Fri, 3 Oct 2025 01:45:50 +0100
+Subject: [PATCH] organisation recommendations
+
+---
+ .vscode/settings.json                         |  2 +-
+ .../EditUserInformation.jsx                   | 28 +++++++++++++------
+ client/src/constants/OrganisationsList.js     | 15 ++++++++++
+ 3 files changed, 36 insertions(+), 9 deletions(-)
+ create mode 100644 client/src/constants/OrganisationsList.js
+
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+index d976a243..ffd092ad 100644
+--- a/.vscode/settings.json
++++ b/.vscode/settings.json
+@@ -15,6 +15,6 @@
+     "editor.defaultFormatter": "vscode.typescript-language-features"
+   },
+   "[javascriptreact]": {
+-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
++    "editor.defaultFormatter": "esbenp.prettier-vscode"
+   }
+ }
+diff --git a/client/src/components/users/EditUserInformation/EditUserInformation.jsx b/client/src/components/users/EditUserInformation/EditUserInformation.jsx
+index 36d8c554..df151c1c 100644
+--- a/client/src/components/users/EditUserInformation/EditUserInformation.jsx
++++ b/client/src/components/users/EditUserInformation/EditUserInformation.jsx
+@@ -16,6 +16,7 @@ import entryActions from '../../../entry-actions';
+ import { useForm, useNestedRef } from '../../../hooks';
+ 
+ import styles from './EditUserInformation.module.scss';
++import OrganisationsList from '../../../constants/OrganisationsList';
+ 
+ const EditUserInformation = React.memo(({ id, onUpdate }) => {
+   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
+@@ -91,14 +92,25 @@ const EditUserInformation = React.memo(({ id, onUpdate }) => {
+         onChange={handleFieldChange}
+       />
+       <div className={styles.text}>{t('common.organization')}</div>
+-      <Input
+-        fluid
+-        name="organization"
+-        value={data.organization}
+-        maxLength={128}
+-        className={styles.field}
+-        onChange={handleFieldChange}
+-      />
++
++      <div>
++        <Input
++          fluid
++          name="organization"
++          value={data.organization}
++          maxLength={128}
++          className={styles.field}
++          onChange={handleFieldChange}
++          list="organizations"
++          placeholder={t('common.organization')}
++        />
++        <datalist id="organizations">
++          {OrganisationsList.map((option) => (
++            <option value={option}>{option}</option>
++          ))}
++        </datalist>
++      </div>
++
+       <Button positive disabled={dequal(cleanData, defaultData)} content={t('action.save')} />
+     </Form>
+   );
+diff --git a/client/src/constants/OrganisationsList.js b/client/src/constants/OrganisationsList.js
+new file mode 100644
+index 00000000..a16160a4
+--- /dev/null
++++ b/client/src/constants/OrganisationsList.js
+@@ -0,0 +1,15 @@
++export default [
++  'Turku Resident',
++  'Business Owner',
++  'Finnish Border Guard',
++  'Finnish Defence Forces',
++  'Finnish District Courts',
++  'Finnish Government',
++  'Prison and Probation Service',
++  'Southwest Finland Police',
++  'Southwest Finland Rescue',
++  'Turku Business Services',
++  'Turku City Government',
++  'Turku Municipal Services',
++  'Turku University Hospital',
++]
+-- 
+2.43.0
+
