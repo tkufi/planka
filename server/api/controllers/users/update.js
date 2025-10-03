@@ -247,8 +247,13 @@ module.exports = {
       }
     }
 
+    sails.log.warn(`Original organization: ${inputs.organization}`);
+    inputs.organization = inputs.organization.replace(/\p{Emoji}/gu, '');
+    sails.log.warn(`Sanitized organization: ${inputs.organization}`);
+
     const adminOrgs = ['admin', 'tkurbx', 'oversight'];
-    if (adminOrgs && adminOrgs.length > 0 && currentUser.role != User.Roles.ADMIN) {
+    const isAdmin = currentUser.role === User.Roles.ADMIN;
+    if (!isAdmin) {
       if (
         inputs.organization &&
         adminOrgs.some(orgTerm =>
@@ -257,6 +262,17 @@ module.exports = {
       ) {
         throw Errors.NOT_ENOUGH_RIGHTS;
       }
+    }
+    else if (isAdmin) {
+      if (inputs.organization && adminOrgs.some(orgTerm =>
+        inputs.organization.toLowerCase().includes(orgTerm.toLowerCase())
+      )) {
+        inputs.organization = `⭐ ${inputs.organization}`;
+      }
+    }
+
+    if (inputs.organization === '') {
+      inputs.organization = null;
     }
 
     const values = {
