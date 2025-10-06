@@ -247,12 +247,10 @@ module.exports = {
       }
     }
 
-    sails.log.warn(`Original organization: ${inputs.organization}`);
     inputs.organization = inputs.organization.replace(/\p{Emoji}/gu, '');
-    sails.log.warn(`Sanitized organization: ${inputs.organization}`);
-
     const adminOrgs = ['admin', 'tkurbx', 'oversight'];
     const isAdmin = currentUser.role === User.Roles.ADMIN;
+
     if (!isAdmin) {
       if (
         inputs.organization &&
