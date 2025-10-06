@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Σύνδεση',
-      logInWithSso: 'Σύνδεση με SSO',
+      logInWithSso: 'Σύνδεση με Roblox',
     },
   },
 };

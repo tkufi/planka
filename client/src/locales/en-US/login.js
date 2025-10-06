@@ -25,7 +25,7 @@ export default {
       cancelAndClose: 'Cancel and close',
       continue: 'Continue',
       logIn: 'Log in',
-      logInWithSso: 'Log in with SSO',
+      logInWithSso: 'Log in with Roblox',
     },
   },
 };

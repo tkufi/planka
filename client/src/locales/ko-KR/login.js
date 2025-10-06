@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: '로그인',
-      logInWithSso: 'SSO로 로그인',
+      logInWithSso: 'Roblox로 로그인',
     },
   },
 };

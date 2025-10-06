@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Вход',
-      logInWithSso: 'Вход чрез SSO',
+      logInWithSso: 'Вход чрез Roblox',
     },
   },
 };

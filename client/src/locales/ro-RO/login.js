@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Autentificarea',
-      logInWithSso: 'Autentificarea cu SSO',
+      logInWithSso: 'Autentificarea cu Roblox',
     },
   },
 };

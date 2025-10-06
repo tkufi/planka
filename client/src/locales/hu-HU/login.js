@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Belépés',
-      logInWithSso: 'Belépés SSO-val',
+      logInWithSso: 'Belépés Roblox-val',
     },
   },
 };

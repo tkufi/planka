@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'ورود',
-      logInWithSso: 'ورود با SSO',
+      logInWithSso: 'ورود با Roblox',
     },
   },
 };

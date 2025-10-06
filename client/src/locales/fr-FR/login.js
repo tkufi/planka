@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Se connecter',
-      logInWithSso: "Se connecter avec l'authentification unique",
+      logInWithSso: "Se connecter avec Roblox",
     },
   },
 };

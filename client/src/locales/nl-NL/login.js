@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Inloggen',
-      logInWithSso: 'Inloggen met SSO',
+      logInWithSso: 'Inloggen met Roblox',
     },
   },
 };

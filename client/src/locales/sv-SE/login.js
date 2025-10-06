@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Logga in',
-      logInWithSso: null,
+      logInWithSso: 'Logga in med Roblox',
     },
   },
 };

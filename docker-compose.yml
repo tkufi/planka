@@ -46,7 +46,7 @@ services:
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
 
       # Used for per-board notifications
-      # - DEFAULT_LANGUAGE=en-US
+      # - DEFAULT_LANGUAGE=en-GB
 
       # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
       # - DEFAULT_ADMIN_EMAIL=demo@demo.demo

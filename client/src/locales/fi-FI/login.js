@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Kirjaudu sisään',
-      logInWithSso: 'Kirjaudu SSO:lla',
+      logInWithSso: 'Kirjaudu Robloxilla',
     },
   },
 };

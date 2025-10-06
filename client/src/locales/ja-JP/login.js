@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'ログイン',
-      logInWithSso: 'SSOでログイン',
+      logInWithSso: 'Robloxでログイン',
     },
   },
 };

@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Iniciar sessão',
-      logInWithSso: 'Iniciar sessão com SSO',
+      logInWithSso: 'Iniciar sessão com Roblox',
     },
   },
 };

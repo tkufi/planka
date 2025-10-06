@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: '登入',
-      logInWithSso: '使用SSO登入',
+      logInWithSso: '使用Roblox登入',
     },
   },
 };

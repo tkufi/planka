@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Logi sisse',
-      logInWithSso: 'Logi sisse SSO-ga',
+      logInWithSso: 'Logi sisse Robloxiga',
     },
   },
 };

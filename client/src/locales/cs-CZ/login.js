@@ -26,7 +26,7 @@ export default {
       cancelAndClose: 'Zrušit a zavřít',
       continue: 'Pokračovat',
       logIn: 'Přihlásit se',
-      logInWithSso: 'Přihlásit se pomocí SSO',
+      logInWithSso: 'Přihlásit se pomocí Roblox',
     },
   },
 };

@@ -25,7 +25,7 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Masuk',
-      logInWithSso: 'Masuk dengan SSO',
+      logInWithSso: 'Masuk dengan Roblox',
     },
   },
 };

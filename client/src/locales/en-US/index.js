@@ -4,8 +4,8 @@ import login from './login';
 import core from './core';
 
 export default {
-  language: 'en-GB',
-  country: 'gb',
+  language: 'en-US',
+  country: 'us',
   name: 'English',
   embeddedLocale: merge(login, core),
 };

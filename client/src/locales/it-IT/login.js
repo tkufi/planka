@@ -25,7 +25,7 @@ export default {
       cancelAndClose: 'Annulla e chiudi',
       continue: 'Continua',
       logIn: 'Accedi',
-      logInWithSso: 'Accedi con SSO',
+      logInWithSso: 'Accedi con Roblox',
     },
   },
 };
