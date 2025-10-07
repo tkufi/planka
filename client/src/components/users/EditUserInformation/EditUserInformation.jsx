@@ -82,15 +82,6 @@ const EditUserInformation = React.memo(({ id, onUpdate }) => {
         className={styles.field}
         onChange={handleFieldChange}
       />
-      <div className={styles.text}>{t('common.phone')}</div>
-      <Input
-        fluid
-        name="phone"
-        value={data.phone}
-        maxLength={128}
-        className={styles.field}
-        onChange={handleFieldChange}
-      />
       <div className={styles.text}>{t('common.organization')}</div>
 
       <div>
