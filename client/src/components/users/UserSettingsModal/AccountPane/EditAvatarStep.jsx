@@ -21,7 +21,7 @@ const EditAvatarStep = React.memo(({ onClose }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
-  const fieldRef = useRef(null);
+  // const fieldRef = useRef(null);
 
   const handleFileSelect = useCallback(
     (file) => {
@@ -46,9 +46,9 @@ const EditAvatarStep = React.memo(({ onClose }) => {
     onClose();
   }, [onClose, dispatch]);
 
-  useEffect(() => {
-    fieldRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   fieldRef.current.focus();
+  // }, []);
 
   return (
     <>
@@ -58,7 +58,7 @@ const EditAvatarStep = React.memo(({ onClose }) => {
         })}
       </Popup.Header>
       <Popup.Content>
-        <div className={styles.action}>
+        {/* <div className={styles.action}>
           <FilePicker accept="image/*" onSelect={handleFileSelect}>
             <Button
               ref={fieldRef}
@@ -66,7 +66,7 @@ const EditAvatarStep = React.memo(({ onClose }) => {
               className={styles.actionButton}
             />
           </FilePicker>
-        </div>
+        </div> */}
         {defaultValue && (
           <Button negative content={t('action.deleteAvatar')} onClick={handleDeleteClick} />
         )}
