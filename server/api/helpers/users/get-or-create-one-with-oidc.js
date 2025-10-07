@@ -175,25 +175,42 @@ module.exports = {
         updateFieldKeys.push('role');
       }
 
-      const updateValues = {};
-      // eslint-disable-next-line no-restricted-syntax
-      for (const k of updateFieldKeys) {
-        if (values[k] !== user[k]) updateValues[k] = values[k];
-      }
+      if (!user.avatar) {
 
-      if (Object.keys(updateValues).length > 0) {
-        user = await sails.helpers.users.updateOne
-          .with({
-            record: user,
-            values: updateValues,
-            actorUser: User.OIDC,
-          })
-          .intercept('emailAlreadyInUse', 'emailAlreadyInUse')
-          .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse')
-          .intercept('activeLimitReached', 'activeLimitReached');
+        var picture = claims[sails.config.custom.oidcPictureAttribute];
+        if (picture) {
+          const pictureBuffer = await sails.helpers.utils.downloadFileFromUrl(picture);
+          if (pictureBuffer) {
+            const avatar = await sails.helpers.users
+              .processUploadedAvatarBuffer(pictureBuffer)
+              // .intercept('fileIsNotImage', () => null);
+
+            if (avatar) {
+              values.avatar = avatar;
+              updateFieldKeys.push('avatar');
+            }
+          }
+        }
+
+        const updateValues = {};
+        // eslint-disable-next-line no-restricted-syntax
+        for (const k of updateFieldKeys) {
+          if (values[k] !== user[k]) updateValues[k] = values[k];
+        }
+
+        if (Object.keys(updateValues).length > 0) {
+          user = await sails.helpers.users.updateOne
+            .with({
+              record: user,
+              values: updateValues,
+              actorUser: User.OIDC,
+            })
+            .intercept('emailAlreadyInUse', 'emailAlreadyInUse')
+            .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse')
+            .intercept('activeLimitReached', 'activeLimitReached');
+        }
       }
     }
-
     return user;
   },
 };

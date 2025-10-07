@@ -88,6 +88,7 @@ module.exports.custom = {
   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
   oidcUsernameAttribute: process.env.OIDC_USERNAME_ATTRIBUTE || 'preferred_username',
+  oidcPictureAttribute: process.env.OIDC_PICTURE_ATTRIBUTE || 'picture',
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
   oidcIgnoreUsername: process.env.OIDC_IGNORE_USERNAME === 'true',
   oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
@@ -107,4 +108,6 @@ module.exports.custom = {
   smtpFrom: process.env.SMTP_FROM,
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
+
+  robloxOpenCloudKey: process.env.ROBLOX_OPEN_CLOUD_KEY,
 };
