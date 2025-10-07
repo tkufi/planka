@@ -1,0 +1,303 @@
+From e1514eb0e0ca7ffe71ffe60f4f870fec61c5b158 Mon Sep 17 00:00:00 2001
+From: Adam <37848102+Blaadam@users.noreply.github.com>
+Date: Tue, 7 Oct 2025 17:19:37 +0100
+Subject: [PATCH] set avatar as default roblox
+
+---
+ .../users/get-or-create-one-with-oidc.js      | 49 +++++++---
+ .../users/process-uploaded-avatar-buffer.js   | 98 +++++++++++++++++++
+ .../helpers/utils/download-file-from-url.js   | 94 ++++++++++++++++++
+ server/config/custom.js                       |  3 +
+ 4 files changed, 228 insertions(+), 16 deletions(-)
+ create mode 100644 server/api/helpers/users/process-uploaded-avatar-buffer.js
+ create mode 100644 server/api/helpers/utils/download-file-from-url.js
+
+diff --git a/server/api/helpers/users/get-or-create-one-with-oidc.js b/server/api/helpers/users/get-or-create-one-with-oidc.js
+index 23bbbb12..3a41a7b5 100644
+--- a/server/api/helpers/users/get-or-create-one-with-oidc.js
++++ b/server/api/helpers/users/get-or-create-one-with-oidc.js
+@@ -175,25 +175,42 @@ module.exports = {
+         updateFieldKeys.push('role');
+       }
+ 
+-      const updateValues = {};
+-      // eslint-disable-next-line no-restricted-syntax
+-      for (const k of updateFieldKeys) {
+-        if (values[k] !== user[k]) updateValues[k] = values[k];
+-      }
++      if (!user.avatar) {
++
++        var picture = claims[sails.config.custom.oidcPictureAttribute];
++        if (picture) {
++          const pictureBuffer = await sails.helpers.utils.downloadFileFromUrl(picture);
++          if (pictureBuffer) {
++            const avatar = await sails.helpers.users
++              .processUploadedAvatarBuffer(pictureBuffer)
++              // .intercept('fileIsNotImage', () => null);
++
++            if (avatar) {
++              values.avatar = avatar;
++              updateFieldKeys.push('avatar');
++            }
++          }
++        }
+ 
+-      if (Object.keys(updateValues).length > 0) {
+-        user = await sails.helpers.users.updateOne
+-          .with({
+-            record: user,
+-            values: updateValues,
+-            actorUser: User.OIDC,
+-          })
+-          .intercept('emailAlreadyInUse', 'emailAlreadyInUse')
+-          .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse')
+-          .intercept('activeLimitReached', 'activeLimitReached');
++        const updateValues = {};
++        // eslint-disable-next-line no-restricted-syntax
++        for (const k of updateFieldKeys) {
++          if (values[k] !== user[k]) updateValues[k] = values[k];
++        }
++
++        if (Object.keys(updateValues).length > 0) {
++          user = await sails.helpers.users.updateOne
++            .with({
++              record: user,
++              values: updateValues,
++              actorUser: User.OIDC,
++            })
++            .intercept('emailAlreadyInUse', 'emailAlreadyInUse')
++            .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse')
++            .intercept('activeLimitReached', 'activeLimitReached');
++        }
+       }
+     }
+-
+     return user;
+   },
+ };
+diff --git a/server/api/helpers/users/process-uploaded-avatar-buffer.js b/server/api/helpers/users/process-uploaded-avatar-buffer.js
+new file mode 100644
+index 00000000..37e0010b
+--- /dev/null
++++ b/server/api/helpers/users/process-uploaded-avatar-buffer.js
+@@ -0,0 +1,98 @@
++/*!
++ * Copyright (c) 2024 PLANKA Software GmbH
++ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
++ */
++
++const { v4: uuid } = require('uuid');
++const { rimraf } = require('rimraf');
++const mime = require('mime');
++const sharp = require('sharp');
++
++module.exports = {
++  inputs: {
++    buffer: {
++      type: 'ref',
++      required: true,
++    },
++  },
++
++  exits: {
++    fileIsNotImage: {},
++  },
++
++  async fn(inputs) {
++    const originalBuffer = inputs.buffer;
++    var image = sharp(originalBuffer);
++
++    let metadata;
++
++    try {
++      metadata = await image.metadata();
++
++      if (metadata.orientation && metadata.orientation > 4) {
++        image = image.rotate();
++      }
++
++      // originalBuffer = await image.toBuffer();
++    } catch (error) {
++      // await rimraf(inputs.file.fd);
++      throw 'fileIsNotImage';
++    }
++
++    const fileManager = sails.hooks['file-manager'].getInstance();
++
++    const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
++    const size = originalBuffer.length;
++
++    const mimeType = mime.getType(extension)
++
++    const { id: uploadedFileId } = await UploadedFile.qm.createOne({
++      mimeType,
++      size,
++      id: uuid(),
++      type: UploadedFile.Types.USER_AVATAR,
++    });
++
++    const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${uploadedFileId}`;
++
++    try {
++      await fileManager.save(
++        `${dirPathSegment}/original.${extension}`,
++        originalBuffer,
++        metadata.format,
++      );
++
++      const cover180Buffer = await image
++        .resize(180, 180, {
++          withoutEnlargement: true,
++        })
++        .png({
++          quality: 75,
++          force: false,
++        })
++        .toBuffer();
++
++      await fileManager.save(
++        `${dirPathSegment}/cover-180.${extension}`,
++        cover180Buffer,
++        metadata.format,
++      );
++    } catch (error) {
++      sails.log.warn(error.stack);
++
++      await fileManager.deleteDir(dirPathSegment);
++      // await rimraf(inputs.file.fd);
++      await UploadedFile.qm.deleteOne(uploadedFileId);
++
++      throw 'fileIsNotImage';
++    }
++
++    // await rimraf(inputs.file.fd);
++
++    return {
++      uploadedFileId,
++      extension,
++      size,
++    };
++  },
++};
+diff --git a/server/api/helpers/utils/download-file-from-url.js b/server/api/helpers/utils/download-file-from-url.js
+new file mode 100644
+index 00000000..ad351465
+--- /dev/null
++++ b/server/api/helpers/utils/download-file-from-url.js
+@@ -0,0 +1,94 @@
++/*!
++ * Copyright (c) 2024 PLANKA Software GmbH
++ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
++ */
++
++const { URL } = require('url');
++const icoToPng = require('ico-to-png');
++const sharp = require('sharp');
++
++const FETCH_TIMEOUT = 4000;
++const MAX_RESPONSE_LENGTH = 1024 * 1024;
++
++const FAVICON_TAGS_REGEX = /<link [^>]*rel="([^"]* )?icon( [^"]*)?"[^>]*>/gi;
++const HREF_REGEX = /href="(.*?)"/i;
++const SIZES_REGEX = /sizes="(.*?)"/i;
++
++const fetchWithTimeout = (url) => {
++  const abortController = new AbortController();
++  setTimeout(() => abortController.abort(), FETCH_TIMEOUT);
++
++  return fetch(url, {
++    signal: abortController.signal,
++  });
++};
++
++const readResponse = async (response) => {
++  const reader = response.body.getReader();
++
++  const chunks = [];
++  let receivedLength = 0;
++
++  for (; ;) {
++    const { value, done } = await reader.read(); // eslint-disable-line no-await-in-loop
++
++    if (done) {
++      break;
++    }
++
++    chunks.push(value);
++    receivedLength += value.length;
++
++    if (receivedLength > MAX_RESPONSE_LENGTH) {
++      reader.cancel();
++
++      return {
++        ok: false,
++        buffer: Buffer.concat(chunks),
++      };
++    }
++  }
++
++  return {
++    ok: true,
++    buffer: Buffer.concat(chunks),
++  };
++};
++
++const isWantedFaviconTag = (faviconTag) => {
++  const sizesMatch = faviconTag.match(SIZES_REGEX);
++
++  if (!sizesMatch) {
++    return false;
++  }
++
++  const sizes = sizesMatch[1].split('x');
++  return parseInt(sizes[0], 10) >= 32 && parseInt(sizes[1], 10) >= 32;
++};
++
++module.exports = {
++  inputs: {
++    url: {
++      type: 'string',
++      required: true,
++    },
++  },
++
++  async fn(inputs) {
++    let response;
++    let readedResponse;
++
++    try {
++      response = await fetchWithTimeout(inputs.url);
++      if (!response.ok) {
++        return;
++      }
++
++      readedResponse = await readResponse(response);
++    } catch (error) {
++      return;
++    }
++
++    return readedResponse.buffer;
++  },
++};
+diff --git a/server/config/custom.js b/server/config/custom.js
+index 92089681..4b8713dd 100644
+--- a/server/config/custom.js
++++ b/server/config/custom.js
+@@ -88,6 +88,7 @@ module.exports.custom = {
+   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
+   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
+   oidcUsernameAttribute: process.env.OIDC_USERNAME_ATTRIBUTE || 'preferred_username',
++  oidcPictureAttribute: process.env.OIDC_PICTURE_ATTRIBUTE || 'picture',
+   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
+   oidcIgnoreUsername: process.env.OIDC_IGNORE_USERNAME === 'true',
+   oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
+@@ -107,4 +108,6 @@ module.exports.custom = {
+   smtpFrom: process.env.SMTP_FROM,
+ 
+   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
++
++  robloxOpenCloudKey: process.env.ROBLOX_OPEN_CLOUD_KEY,
+ };
+-- 
+2.49.0.windows.1
+
