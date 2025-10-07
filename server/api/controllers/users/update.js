@@ -247,30 +247,27 @@ module.exports = {
       }
     }
 
-    inputs.organization = inputs.organization.replace(/\p{Emoji}/gu, '');
     const adminOrgs = ['admin', 'tkurbx', 'oversight'];
     const isAdmin = currentUser.role === User.Roles.ADMIN;
 
-    if (!isAdmin) {
-      if (
-        inputs.organization &&
-        adminOrgs.some(orgTerm =>
-          inputs.organization.toLowerCase().includes(orgTerm.toLowerCase())
-        )
-      ) {
-        throw Errors.NOT_ENOUGH_RIGHTS;
-      }
-    }
-    else if (isAdmin) {
-      if (inputs.organization && adminOrgs.some(orgTerm =>
-        inputs.organization.toLowerCase().includes(orgTerm.toLowerCase())
-      )) {
-        inputs.organization = `⭐ ${inputs.organization}`;
-      }
-    }
+    if (inputs.organization) {
+      inputs.organization = inputs.organization.replace(/\p{Emoji}/gu, '');
 
-    if (inputs.organization === '') {
-      inputs.organization = null;
+      const containsAdminOrg = adminOrgs.some(orgTerm =>
+        inputs.organization.toLowerCase().includes(orgTerm.toLowerCase())
+      );
+
+      if (containsAdminOrg) {
+        if (isAdmin) {
+          inputs.organization = `⭐ ${inputs.organization}`;
+        } else {
+          throw Errors.NOT_ENOUGH_RIGHTS;
+        }
+      }
+
+      if (inputs.organization === '') {
+        inputs.organization = null;
+      }
     }
 
     const values = {
