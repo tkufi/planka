@@ -2,10 +2,11 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Достигнут лимит активных пользователей',
-      adminLoginRequiredToInitializeInstance: null,
+      adminLoginRequiredToInitializeInstance:
+        'Требуется вход администратора для инициализации экземпляра',
       emailAlreadyInUse: 'E-mail уже занят',
       emailOrUsername: 'E-mail или имя пользователя',
-      iHaveReadAndAgreeToTheseTerms: null,
+      iHaveReadAndAgreeToTheseTerms: 'Я прочитал и согласен с этими условиями',
       invalidCredentials: 'Недействительные учетные данные',
       invalidEmailOrUsername: 'Неверный e-mail или имя пользователя',
       invalidPassword: 'Неверный пароль',
@@ -19,11 +20,14 @@ export default {
       unknownError: 'Что-то пошло не так, попробуйте позже',
       useSingleSignOn: 'Используйте единый вход',
       usernameAlreadyInUse: 'Имя пользователя уже занято',
+      whoops_title: 'Упс!',
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Отменить и закрыть',
+      continue: 'Продолжить',
+      goBack: 'Назад',
+      goHome: 'На главную',
       logIn: 'Войти',
       logInWithSso: 'Войти с помощью единого входа',
     },

@@ -2,10 +2,11 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Grænsen for aktive brugere er nået',
-      adminLoginRequiredToInitializeInstance: null,
+      adminLoginRequiredToInitializeInstance:
+        'Administrator login påkrævet for at initialisere instans',
       emailAlreadyInUse: 'E-mail allerede i brug',
       emailOrUsername: 'E-mail eller brugernavn',
-      iHaveReadAndAgreeToTheseTerms: null,
+      iHaveReadAndAgreeToTheseTerms: 'Jeg har læst og accepterer disse vilkår',
       invalidCredentials: 'Forkerte loginoplysninger',
       invalidEmailOrUsername: 'Ugyldig e-mail eller brugernavn',
       invalidPassword: 'Ugyldig adgangskode',
@@ -19,11 +20,14 @@ export default {
       unknownError: 'Ukendt fejl - prøv igen',
       useSingleSignOn: 'Anvend single sign-on',
       usernameAlreadyInUse: 'Brugernavn allerede i brug',
+      whoops_title: 'Ups!',
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Annuller og luk',
+      continue: 'Fortsæt',
+      goBack: 'Gå tilbage',
+      goHome: 'Gå hjem',
       logIn: 'Log på',
       logInWithSso: 'Log på med Roblox',
     },

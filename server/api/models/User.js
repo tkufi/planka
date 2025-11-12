@@ -96,10 +96,15 @@
  *           example: Acme Corporation
  *         language:
  *           type: string
- *           enum: [ar-YE, bg-BG, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *           enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
  *           nullable: true
  *           description: Preferred language for user interface and notifications (personal field)
  *           example: en-US
+ *         apiKeyPrefix:
+ *           type: string
+ *           nullable: true
+ *           description: Prefix of the API key for display purposes (private field)
+ *           example: D89VszVs
  *         subscribeToOwnCards:
  *           type: boolean
  *           default: false
@@ -202,6 +207,7 @@ const ProjectOrders = {
 const LANGUAGES = [
   'ar-YE',
   'bg-BG',
+  'ca-ES',
   'cs-CZ',
   'da-DK',
   'de-DE',
@@ -235,7 +241,8 @@ const LANGUAGES = [
   'zh-TW',
 ];
 
-const PRIVATE_FIELD_NAMES = ['email', 'isSsoUser'];
+// TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
+const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'isSsoUser', 'apiKeyCreatedAt'];
 
 const PERSONAL_FIELD_NAMES = [
   'language',
@@ -319,6 +326,18 @@ module.exports = {
       isIn: LANGUAGES,
       allowNull: true,
     },
+    apiKeyPrefix: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'api_key_prefix',
+    },
+    apiKeyHash: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'api_key_hash',
+    },
     subscribeToOwnCards: {
       type: 'boolean',
       defaultsTo: false,
@@ -376,6 +395,10 @@ module.exports = {
     passwordChangedAt: {
       type: 'ref',
       columnName: 'password_changed_at',
+    },
+    apiKeyCreatedAt: {
+      type: 'ref',
+      columnName: 'api_key_created_at',
     },
     termsAcceptedAt: {
       type: 'ref',

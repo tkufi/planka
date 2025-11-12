@@ -2,10 +2,11 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Aktiivsete kasutajate limiit on täis',
-      adminLoginRequiredToInitializeInstance: null,
+      adminLoginRequiredToInitializeInstance:
+        'Administraatori sisselogimine on vajalik rakenduse käivitamiseks',
       emailAlreadyInUse: 'E-post on juba kasutusel',
       emailOrUsername: 'E-post või kasutajanimi',
-      iHaveReadAndAgreeToTheseTerms: null,
+      iHaveReadAndAgreeToTheseTerms: 'Olen lugenud ja nõustun nende tingimustega',
       invalidCredentials: 'Vale kasutajanimi või parool',
       invalidEmailOrUsername: 'Vale e-post või kasutajanimi',
       invalidPassword: 'Vale parool',
@@ -19,11 +20,14 @@ export default {
       unknownError: 'Tundmatu viga, proovi hiljem uuesti',
       useSingleSignOn: 'Kasuta ühekordset sisselogimist',
       usernameAlreadyInUse: 'Kasutajanimi on juba kasutusel',
+      whoops_title: 'Ups!',
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Tühista ja sulge',
+      continue: 'Jätka',
+      goBack: 'Tagasi',
+      goHome: 'Koju',
       logIn: 'Logi sisse',
       logInWithSso: 'Logi sisse Robloxiga',
     },
